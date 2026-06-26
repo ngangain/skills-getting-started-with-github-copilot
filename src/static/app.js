@@ -13,6 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
       // Clear loading message
       activitiesList.innerHTML = "";
 
+      // Clear existing options from select (except the default one)
+      while (activitySelect.options.length > 1) {
+        activitySelect.remove(1);
+      }
+
       // Populate activities list
       Object.entries(activities).forEach(([name, details]) => {
         const activityCard = document.createElement("div");
@@ -79,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.className = "success";
         signupForm.reset();
         // Refresh activities list to show updated participant count
-        fetchActivities();
+        await fetchActivities();
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";
@@ -119,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
           messageDiv.classList.add("hidden");
         }, 5000);
         // Refresh activities list
-        fetchActivities();
+        await fetchActivities();
       } else {
         const result = await response.json();
         messageDiv.textContent = result.detail || "Failed to unregister";
